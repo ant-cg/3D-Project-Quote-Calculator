@@ -1,0 +1,40 @@
+{
+  "baseRates": {
+    "modeling":   50,
+    "texturing":  20,
+    "shaders":    40,
+    "rigging":    100,
+    "animation":  100,
+    "blueprints": 20,
+    "vfx":        80
+  },
+  "assetUsageLevels": {
+    "none":    { "label": "No — I build everything from scratch",         "discount": 0.00 },
+    "partial": { "label": "Partially — some assets speed things up",      "discount": 0.20 },
+    "mostly":  { "label": "Mostly — heavy asset use, light custom work",  "discount": 0.40 }
+  },
+  "baseMinimum": 80,
+  "cleanupCost": 150,
+  "rushMultiplier": 1.4,
+  "rushShortTimelineMultiplier": 1.3,
+  "rushShortTimelineDays": 7,
+  "ipDiscountMultiplier": 0.85,
+  "projectTaskRates": {
+    "sceneAssembly": 80,
+    "lighting": 70,
+    "rendering": 60,
+    "compositing": 50,
+    "blueprint": 40,
+    "optimization": 50
+  },
+  "clientTiers": {
+    "low":        { "label": "Personal / Commission", "multiplier": 0.8 },
+    "mid":        { "label": "Startup / Studio",      "multiplier": 1.0 },
+    "enterprise": { "label": "Enterprise / Publisher", "multiplier": 1.5 }
+  },
+  "countryTiers": {
+    "tier1": { "label": "Tier 1 – North America / W. Europe / Australia", "multiplier": 1.00 },
+    "tier2": { "label": "Tier 2 – E. Europe / Latin America / Middle East","multiplier": 0.80 },
+    "tier3": { "label": "Tier 3 – South/SE Asia / Africa",                 "multiplier": 0.60 }
+  }
+}
