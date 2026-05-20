@@ -23,7 +23,7 @@
   --danger: #ff5f5f;
 
   /* Transparent variants */
-  --accent-glow: rgba(200, 255, 87, 0.25);
+  --accent-glow: rgba(87, 221, 255, 0.25);
   --accent-soft: rgba(200, 255, 87, 0.04);
   --accent-blue-soft: rgba(87, 200, 255, 0.25);
   --divider-soft: rgba(255, 255, 255, 0.04);
@@ -706,7 +706,7 @@ select.proj-complexity, select.complexity {
   padding: 14px;
   background: transparent;
   color: var(--accent);
-  border: 1.5px solid rgba(200, 255, 87, 0.4);
+  border: 1.5px solid var(--accent);
   border-radius: var(--radius-xl);
   font-family: "Syne", sans-serif;
   font-size: 12px;
