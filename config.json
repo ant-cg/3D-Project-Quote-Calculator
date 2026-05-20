@@ -1,13 +1,27 @@
 {
   "baseRates": {
-    "modeling":   50,
-    "texturing":  20,
-    "shaders":    40,
-    "rigging":    100,
-    "animation":  100,
-    "blueprints": 20,
-    "vfx":        80
+    "modeling":   200,
+    "texturing":  120,
+    "shaders":    100,
+    "rigging":    350,
+    "animation":  300,
+    "blueprints": 250,
+    "vfx":        220
   },
+  "complexityMultipliers": {
+    "1": 0.6,
+    "2": 0.85,
+    "3": 1.0,
+    "4": 1.4,
+    "5": 2.0
+  },
+  "scopeMultipliers": {
+    "micro": 0.5,
+    "small": 1.0,
+    "large": 1.4,
+    "massive": 2.0
+  },
+  
   "assetUsageLevels": {
     "none":    { "label": "No — I build everything from scratch",         "discount": 0.00 },
     "partial": { "label": "Partially — some assets speed things up",      "discount": 0.20 },

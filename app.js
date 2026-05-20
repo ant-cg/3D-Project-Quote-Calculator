@@ -13,6 +13,17 @@ function init(cfg) {
   const baseRates = cfg?.baseRates ?? {
     modeling: 150, texturing: 100, shaders: 120,
     rigging:  180, animation: 160, blueprints: 200, vfx: 180
+  }; // ! USE config.json to override these defaults, not hardcoded values in the app!
+
+  const COMPLEXITY_MULTS = cfg?.complexityMultipliers ?? {
+    1: 0.6, 2: 0.85, 3: 1.0, 4: 1.4, 5: 2.0
+  };
+
+  const SCOPE_MULTS = cfg?.scopeMultipliers ?? {
+    micro: 0.5,
+    small: 1.0,
+    large: 1.4,
+    massive: 2.0
   };
 
   const assetLevels = cfg?.assetUsageLevels ?? {
@@ -39,6 +50,22 @@ function init(cfg) {
   ];
   const MIN_DAYS = 5;
 
+  // Populate client tiers
+  const tierSelect = document.getElementById("clientTier");
+  const tiers = cfg?.clientTiers ?? {
+    low: { label: "Personal / Commission", multiplier: 0.8 },
+    mid: { label: "Startup / Studio", multiplier: 1.0 },
+    enterprise: { label: "Enterprise / Publisher", multiplier: 1.5 }
+  };
+
+  Object.entries(tiers).forEach(([key, data]) => {
+    const opt = document.createElement("option");
+    opt.value = data.multiplier;
+    opt.textContent = data.label;
+    if (key === "mid") opt.selected = true;
+    tierSelect.appendChild(opt);
+  });
+
   // ── Country → region tier (multiplier) ────────────────────────────────────
   // Users cannot select this — it is determined automatically by IP.
   const countryTierMap = {
@@ -47,10 +74,10 @@ function init(cfg) {
     DE:0.95, FR:0.92, NL:0.95, SE:0.95, NO:1.00,
     DK:1.00, FI:0.95, CH:1.00, AT:0.95, BE:0.93,
     IE:1.00, LU:1.00, IS:0.95,
-    JP:0.92, SG:1.00, KR:0.90, HK:0.95, TW:0.90,
+    JP:0.95, SG:1.00, KR:0.95, HK:0.95, TW:0.90,
 
     // ── High income ────────────────────────────────────────
-    AE:0.95, QA:1.00, KW:0.95, SA:0.90, IL:0.90,
+    AE:1.00, QA:1.00, KW:0.95, SA:0.90, IL:0.90,
 
     // ── Upper-middle income ────────────────────────────────
     ES:0.85, IT:0.85, PT:0.80,
@@ -107,7 +134,7 @@ function init(cfg) {
   };
 
   function getComplexityMult(v) {
-    return 1 + (Number(v) - 1) * 0.2; // linear scaling: 1→1,5
+    return COMPLEXITY_MULTS[v] ?? 1;
   }
 
   const PRESETS = {
@@ -168,6 +195,14 @@ function init(cfg) {
           <option value="3" selected>3</option>
           <option value="4">4</option>
           <option value="5">5</option>
+        </select>
+      </td>
+      <td>
+        <select class="asset-scope">
+          <option value="micro">Micro</option>
+          <option value="small" selected>Small</option>
+          <option value="large">Large</option>
+          <option value="massive">Massive</option>
         </select>
       </td>
       <td><button type="button" class="remove-asset">×</button></td>
@@ -309,6 +344,8 @@ function init(cfg) {
       const qty = parseInt(tr.querySelector('.asset-qty').value) || 1;
       const comp = parseInt(tr.querySelector('.asset-complexity').value) || 1;
       const compMult = getComplexityMult(comp);
+      const scopeVal = tr.querySelector('.asset-scope')?.value ?? "small";
+      const scopeMult = SCOPE_MULTS[scopeVal] ?? 1;
       let groupCost = 0;
       const tasksDone = [];
       ['modeling','texturing','shaders','rigging','animation'].forEach(task => {
@@ -316,7 +353,7 @@ function init(cfg) {
         if (cb && cb.checked) {
           const base = baseRates[task] || 0;
           const reuse = REUSE_FACTORS[task] || 0;
-          const cost = base * compMult * (1 + (qty - 1) * reuse);
+          const cost = base * compMult * scopeMult * (1 + (qty - 1) * reuse);
           groupCost += cost;
           tasksDone.push(capitalize(task));
         }
@@ -376,7 +413,8 @@ function init(cfg) {
       subtotal *= IP_DISC;
     }
 
-    const total = Math.round(subtotal);
+    const protectedTotal = Math.max(subtotal, BASE_MIN);
+    const total = Math.round(protectedTotal);
 
     // ── Display price ─────────────────────────────────────────────────────────
     document.getElementById("price").textContent = "$" + total.toLocaleString();
@@ -414,7 +452,6 @@ function init(cfg) {
     // Show result block
     const resultEl = document.getElementById("quoteResult");
     resultEl.classList.add("visible");
-    resultEl.scrollIntoView({ behavior: "smooth", block: "start" });
 
     // Save for PDF
     lastSnapshot = { total, lines, days, dueVal };

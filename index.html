@@ -4,29 +4,33 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>3D Freelance Quote Calculator</title>
+
+  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+
+  <!-- Styles -->
   <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
 
-  <!-- ── Hero ──────────────────────────────────────────────────────────────── -->
+  <!-- ── Hero ───────────────────────────────────────── -->
   <div class="hero">
     <img src="img/anthony-cg-render.jpg" alt="3D project render"/>
   </div>
 
   <div class="wrapper">
 
-    <!-- ── Page title ──────────────────────────────────────────────────────── -->
-    <div class="page-title">
-      <h1>3D Project<br/><span>Quote Calculator</span></h1>
-      <p>Configure scope, asset usage, timeline and client region to generate an accurate estimate.</p>
-    </div>
+    <!-- ── Page Title ───────────────────────────────── -->
+    <header class="page-title">
+      <h1>3D Project <span>Quote Calculator</span></h1>
+      <p>Configure scope, asset usage, and client profile to generate an accurate project estimate.</p>
+    </header>
 
-    <!-- ── Project Setup ─────────────────────────────────────────────────────── -->
-    <div class="card" id="projectSetup">
+    <!-- ── Project Setup ───────────────────────────── -->
+    <section class="card" id="projectSetup">
       <div class="card__title">Project Setup</div>
 
-      <div style="margin-bottom:20px;">
+      <div class="field-group">
         <label class="field-label" for="countrySelect">Client Country</label>
         <select id="countrySelect">
           <option value="">— Select country —</option>
@@ -34,24 +38,23 @@
         <p class="field-note" id="countryInfo"></p>
       </div>
 
-      <div style="margin-bottom:20px;">
-        <span class="field-label">Client Tier</span>
-        <select id="clientTier">
-          <option value="0.8">Personal / Commission</option>
-          <option value="1" selected>Startup / Studio</option>
-          <option value="1.5">Enterprise / Publisher</option>
-        </select>
+      <div class="field-group">
+        <label class="field-label" for="clientTier">Client Tier</label>
+        <!-- JS should populate this dynamically from config -->
+        <select id="clientTier"></select>
       </div>
 
-      <div style="margin-bottom:20px;">
-        <span class="field-label">Project Due Date</span>
+      <div class="field-group">
+        <label class="field-label" for="dueDate">Project Due Date</label>
         <input type="date" id="dueDate"/>
         <p class="field-error" id="dueDateError"></p>
       </div>
 
-      <div style="margin-top:14px;">
+      <div class="field-group">
         <span class="field-label">Asset Usage</span>
+
         <div class="radio-group" id="assetGroup">
+
           <label class="radio-opt">
             <input type="radio" name="assetUsage" value="none" checked/>
             <span class="radio-dot"></span>
@@ -60,14 +63,16 @@
               <small>All assets created from scratch.</small>
             </span>
           </label>
+
           <label class="radio-opt">
             <input type="radio" name="assetUsage" value="partial"/>
             <span class="radio-dot"></span>
             <span class="radio-text">
-              <strong>Mixed — custom &amp; library</strong>
+              <strong>Mixed — custom & library</strong>
               <small>Some premade assets speed things up.</small>
             </span>
           </label>
+
           <label class="radio-opt">
             <input type="radio" name="assetUsage" value="mostly"/>
             <span class="radio-dot"></span>
@@ -76,13 +81,16 @@
               <small>Heavy asset use, light custom work.</small>
             </span>
           </label>
+
         </div>
       </div>
-    </div>
 
-    <!-- ── Asset Groups ──────────────────────────────────────────────────────── -->
-    <div class="card" id="assetGroups">
+    </section>
+
+    <!-- ── Asset Groups ───────────────────────────── -->
+    <section class="card" id="assetGroups">
       <div class="card__title">Asset Groups</div>
+
       <table class="asset-table">
         <thead>
           <tr>
@@ -94,121 +102,120 @@
             <th>Rig</th>
             <th>Anim</th>
             <th>Complexity</th>
+            <th>Scope</th>
             <th></th>
           </tr>
         </thead>
         <tbody></tbody>
       </table>
-      <button type="button" id="addAssetGroup">+ Add Asset Group</button>
-    </div>
 
-    <!-- ── Project Tasks ─────────────────────────────────────────────────────── -->
-    <div class="card" id="projectTasks">
+      <button type="button" id="addAssetGroup" class="secondary-btn">
+        + Add Asset Group
+      </button>
+    </section>
+
+    <!-- ── Project Tasks ───────────────────────────── -->
+    <section class="card" id="projectTasks">
       <div class="card__title">Project Tasks</div>
 
-      <div class="task-row">
+      <div class="task-list">
+
         <label class="check-wrap">
           <input type="checkbox" class="proj-task" value="sceneAssembly"/>
           <span class="check-box"></span>
           <span class="check-label">Scene Assembly</span>
         </label>
-      </div>
 
-      <div class="task-row">
         <label class="check-wrap">
           <input type="checkbox" class="proj-task" value="lighting"/>
           <span class="check-box"></span>
           <span class="check-label">Lighting Setup</span>
         </label>
-      </div>
 
-      <div class="task-row">
         <label class="check-wrap">
           <input type="checkbox" class="proj-task" value="rendering"/>
           <span class="check-box"></span>
           <span class="check-label">Rendering</span>
         </label>
-      </div>
 
-      <div class="task-row">
         <label class="check-wrap">
           <input type="checkbox" class="proj-task" value="compositing"/>
           <span class="check-box"></span>
           <span class="check-label">Compositing</span>
         </label>
-      </div>
 
-      <div class="task-row">
         <label class="check-wrap">
           <input type="checkbox" class="proj-task" value="blueprint"/>
           <span class="check-box"></span>
           <span class="check-label">Blueprint Logic</span>
         </label>
-      </div>
 
-      <div class="task-row">
         <label class="check-wrap">
           <input type="checkbox" class="proj-task" value="optimization"/>
           <span class="check-box"></span>
           <span class="check-label">Optimization</span>
         </label>
+
       </div>
+    </section>
 
-    </div>
-
-    <!-- ── Pricing modifiers ────────────────────────────────────────────────── -->
-    <div class="card">
+    <!-- ── Pricing Modifiers ───────────────────────── -->
+    <section class="card" id="pricingModifiers">
       <div class="card__title">Pricing Modifiers</div>
 
+      <label class="check-wrap">
+        <input type="checkbox" id="ipOwnership"/>
+        <span class="check-box"></span>
+        <span class="check-label">
+          Artist keeps IP rights
+          <span class="rate-badge">−15%</span>
+        </span>
+      </label>
 
-      <!-- IP rights -->
-      <div style="margin-top:18px;">
-        <label class="check-wrap">
-          <input type="checkbox" id="ipOwnership"/>
-          <span class="check-box"></span>
-          <span class="check-label">Artist keeps IP rights <span class="rate-badge">−15%</span></span>
-        </label>
-      </div>
+    </section>
 
-    </div><!-- /card modifiers -->
+    <!-- ── Calculate Button ───────────────────────── -->
+    <button class="calc-btn" id="calculateBtn" type="button">
+      Calculate Quote →
+    </button>
 
-    <!-- ── Regional pricing multiplier (based on selected country) → applied silently -->
+    <!-- ── Quote Result ───────────────────────────── -->
+    <section id="quoteResult">
 
-    <button class="calc-btn" id="calculateBtn" type="button">Calculate Quote →</button>
-
-    <!-- ── Quote result ─────────────────────────────────────────────────────── -->
-    <div id="quoteResult">
       <div class="quote-card">
+
         <div class="quote-header">
           <span class="q-label">Estimated Quote</span>
           <span class="region-badge" id="regionBadge"></span>
         </div>
+
         <div class="price-display" id="price">$0</div>
         <div class="price-note" id="priceNote"></div>
 
         <button class="summary-toggle" id="summaryToggle" type="button">
           Project Summary
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2.5">
             <polyline points="6 9 12 15 18 9"/>
           </svg>
         </button>
+
         <div class="summary-body" id="summaryBody"></div>
+
       </div>
 
       <button class="dl-btn" id="downloadPdf" type="button">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-          <polyline points="7 10 12 15 17 10"/>
-          <line x1="12" y1="15" x2="12" y2="3"/>
-        </svg>
         Download Quote PDF
       </button>
-    </div>
 
-  </div><!-- /wrapper -->
+    </section>
 
+  </div>
+
+  <!-- Scripts -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="app.js"></script>
+
 </body>
 </html>
