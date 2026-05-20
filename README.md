@@ -4,7 +4,7 @@ A lightweight browser-based pricing tool built for **3D artists and freelancers*
 
 This calculator helps eliminate guesswork, prevent underpricing, and create transparent quotes for commissions and production work.
 
-![3D Project Quote Calculator](img/anthony-cg-render.jpg)
+![3D Project Quote Calculator](img/QuoteCalc.jpg)
 
 ---
 
